@@ -1,8 +1,31 @@
-﻿@model dynamic
+﻿
+@model dynamic
 
 @{
     ViewBag.Title = "Mobile CardKeeper";
-    Layout = null;
+    Layout = "~/Views/__Layout.cshtml";
 }
+
+<script type="text/javascript" src="~/Content/jquery-2.1.0.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.ajax(
+            'http://localhost:64458/api/Cards',
+            //"http://cardkeeper.apphb.com/api/cards/",
+            
+            {
+                type: 'GET',
+                traditional: true,
+                crossDomain: true,
+                dataType: 'json',
+                data: {},
+                success: function(data, status, xhr) {
+                    
+                }
+            }
+        );
+    })
+
+</script>
 
 <h2>Mobile CardKeeper</h2>
