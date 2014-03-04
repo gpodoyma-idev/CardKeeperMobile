@@ -1,0 +1,53 @@
+﻿.card {
+    float: left;
+    width: 400px;
+    margin: 10px;
+    background-color: lightblue;
+    padding: 10px;
+    min-height: 200px;
+    border-radius: 10px;
+}
+.card_template {
+    display: none;
+}
+.card__name {
+    font-size: 20px;
+}
+.card__brand {
+    font-size: 20px;
+}
+.card__code {
+    font-size: 12px;
+    float: right;
+}
+.card__status {
+    width: 70px;
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 15px;
+    float: right;
+}
+.card__status_enabled {
+    background-color: lightgreen;
+}
+.card__status_disabled {
+    background-color: lightpink;
+}
+
+.card__status:before {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: white;
+    display: block;
+    content: '';
+}
+.card__status_enabled:before {
+    float: right;
+}
+
+.cardcontainer {
+    max-width: 900px;
+    min-width: 400px;
+    margin: 0 auto;
+}
