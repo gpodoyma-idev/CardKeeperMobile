@@ -7,30 +7,69 @@
 }
 
 <style type="text/css">
+    body {
+        font-family: arial;
+    }
     .card {
         float: left;
         width: 400px;
-        margin-right: 50px;
+        margin: 10px;
         background-color: lightblue;
+        padding: 10px;
+        min-height: 200px;
+        border-radius: 10px;
     }
     .card_template {
         display: none;
     }
-    .card__name {}
-    .card__brand {}
-    .card__code {}
+    .card__name {
+        font-size: 20px;
+    }
+    .card__brand {
+        font-size: 20px;
+    }
+    .card__code {
+        font-size: 12px;
+        float: right;
+    }
+    .card__status {
+        width: 70px;
+        height: 30px;
+        border: 1px solid white;
+        border-radius: 15px;
+    }
+    .card__status_enabled {
+        background-color: lightgreen;
+    }
+    .card__status_disabled {
+        background-color: lightpink;
+    }
+
+    .card__status:before {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background-color: white;
+        display: block;
+        content: '';
+    }
+    .card__status_disabled:before {
+        float: right;
+    }
 
     .cardcontainer {
-        width: 900px;
+        max-width: 900px;
+        min-width: 400px;
         margin: 0 auto;
     }
 </style>
 
 <h2>Mobile CardKeeper</h2>
 <div class="card card_template">
-    <div class="card__name"></div>
     <div class="card__brand"></div>
+    <div class="card__name"></div>
     <div class="card__code"></div>
+    <div class="card__status"></div>
 </div>
 <div class="cardcontainer"></div>
 
@@ -40,7 +79,6 @@
         function () {
             $.ajax(
                 'http://cardkeeper.apphb.com/api/cards/',
-            
                 {
                     type: 'GET',
                     traditional: true,
@@ -55,6 +93,13 @@
                                 card.find('.card__name').text(data[i].Name);
                                 card.find('.card__brand').text(data[i].Brand);
                                 card.find('.card__code').text(data[i].Code);
+                                var statusClass;
+                                if (data[i].Active) {
+                                    statusClass = 'card__status_enabled';
+                                } else {
+                                    statusClass = 'card__status_disabled';
+                                }
+                                card.find('.card__status').addClass(statusClass);
                                 container.append(card);
                             }
                         }
