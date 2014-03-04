@@ -37,6 +37,7 @@
         height: 30px;
         border: 1px solid white;
         border-radius: 15px;
+        float: right;
     }
     .card__status_enabled {
         background-color: lightgreen;
@@ -53,7 +54,7 @@
         display: block;
         content: '';
     }
-    .card__status_disabled:before {
+    .card__status_enabled:before {
         float: right;
     }
 
@@ -66,46 +67,79 @@
 
 <h2>Mobile CardKeeper</h2>
 <div class="card card_template">
+    <div class="card__status" onclick="changeStatus(this);"></div>
     <div class="card__brand"></div>
     <div class="card__name"></div>
     <div class="card__code"></div>
-    <div class="card__status"></div>
 </div>
 <div class="cardcontainer"></div>
 
 
 <script type="text/javascript">
-    $(document).ready(
-        function () {
-            $.ajax(
-                'http://cardkeeper.apphb.com/api/cards/',
-                {
-                    type: 'GET',
-                    traditional: true,
-                    crossDomain: true,
-                    dataType: 'json',
-                    data: {},
-                    success: function (data, status, xhr) {
-                        if (data && data.length) {
-                            var container = $('.cardcontainer');
-                            for (var i = 0; i < data.length; i++) {
-                                var card = $('.card_template').clone().removeClass('card_template');
-                                card.find('.card__name').text(data[i].Name);
-                                card.find('.card__brand').text(data[i].Brand);
-                                card.find('.card__code').text(data[i].Code);
-                                var statusClass;
-                                if (data[i].Active) {
-                                    statusClass = 'card__status_enabled';
-                                } else {
-                                    statusClass = 'card__status_disabled';
-                                }
-                                card.find('.card__status').addClass(statusClass);
-                                container.append(card);
+    var loadCards = function () {
+        $.ajax(
+            'http://cardkeeper.apphb.com/api/cards/',
+            {
+                type: 'GET',
+                traditional: true,
+                crossDomain: true,
+                dataType: 'json',
+                data: {},
+                success: function (data, status, xhr) {
+                    if (data && data.length) {
+                        var container = $('.cardcontainer');
+                        for (var i = 0; i < data.length; i++) {
+                            var card = $('.card_template').clone().removeClass('card_template');
+                            card.attr('data-id', data[i].ID);
+                            card.find('.card__name').text(data[i].Name);
+                            card.find('.card__brand').text(data[i].Brand);
+                            card.find('.card__code').text(data[i].Code);
+                            var statusClass;
+                            if (data[i].Active) {
+                                statusClass = 'card__status_enabled';
+                            } else {
+                                statusClass = 'card__status_disabled';
                             }
+                            card.find('.card__status').addClass(statusClass);
+                            container.append(card);
                         }
                     }
                 }
-            );
-        })
+            }
+        );
+    };
+    var changeStatus = function(el) {
+        var card = $(el).closest('.card');
+        var id = card.attr('data-id');
+        var status = card.find('.card__status');
+        var active = status.hasClass('card__status_disabled');
+        var toggle = function(active) {
+            if (active) {
+                status.removeClass('card__status_disabled');
+                status.addClass('card__status_enabled');
+            } else {
+                status.addClass('card__status_disabled');
+                status.removeClass('card__status_enabled');
+            }
+        }
+        debugger;
+        $.ajax(
+            'http://cardkeeper.apphb.com/api/cards/' + id,
+            {
+                type: 'PUT',
+                traditional: true,
+                crossDomain: true,
+                dataType: 'json',
+                data: {
+                    id: id,
+                    active: active
+                },
+                fail: function() {
+                    toggle(!active);
+                }
+            }
+        );
+    };
+    $(document).ready(loadCards());
 
 </script>
