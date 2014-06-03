@@ -6,7 +6,7 @@
     Layout = "~/Views/__Layout.cshtml";
 }
 
-<link type="text/css" href="~/Content/card.css"/>
+<link rel="stylesheet" type="text/css" href="~/Content/card.css"/>
 <h2>Mobile CardKeeper</h2>
 <div class="card card_template">
     <div class="card__status" onclick="changeStatus(this);"></div>
@@ -18,9 +18,11 @@
 
 
 <script type="text/javascript">
+    var domain = 'http://localhost:64458/';//'http://cardkeeper.apphb.com/';
+    var cards = 'api/cards/';
     var loadCards = function () {
         $.ajax(
-            'http://cardkeeper.apphb.com/api/cards/',
+            domain + cards,
             {
                 type: 'GET',
                 traditional: true,
@@ -66,15 +68,26 @@
         }
         debugger;
         $.ajax(
-            'http://cardkeeper.apphb.com/api/cards/' + id,
+            domain + cards + id,
             {
-                type: 'PUT',
+                type: 'POST',
                 traditional: true,
                 crossDomain: true,
                 dataType: 'json',
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 data: {
-                    id: id,
-                    active: active
+                    
+                        "ID":1,
+                        "UserID":0,
+                        "Name":"loyalty",
+                        "Brand":"Abibas",
+                        "Code":"0000123",
+                        "Type":2,
+                        "Active":false,
+                        "Data":null
+                    
                 },
                 fail: function() {
                     toggle(!active);

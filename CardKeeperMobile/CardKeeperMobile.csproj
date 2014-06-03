@@ -118,7 +118,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="Content\jquery-2.1.0.js" />
+    <Content Include="Content\card.css" />
+    <Content Include="Content\common.css" />
+    <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
