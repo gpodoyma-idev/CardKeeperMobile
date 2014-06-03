@@ -120,6 +120,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Content\card.css" />
     <Content Include="Content\common.css" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
